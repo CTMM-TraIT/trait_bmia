@@ -1,0 +1,20 @@
+# do not commit build output #
+##############################
+/bda-local-ivy-repo
+/currentServer/software/target
+
+# remove builded documents from sub-projects
+/currentServer/software/ncia-core-grid-transfer/build
+/currentServer/software/ncia-core-grid-transfer/test-classes
+/currentServer/software/ncia-core-grid-transfer/target
+/currentServer/software/ncia-core-grid-transfer/docs
+/currentServer/software/nbia-service/build
+/currentServer/software/nbia-service/target
+/currentServer/software/nbia-service/docs
+/currentServer/software/nbia-download/test
+/currentServer/software/image-zipping-mdb/test
+/currentServer/software/nbia-service/client-jars-full.zip
+/currentServer/software/nbia-service/client-jars-nodeps.zip
+/currentServer/software/ncia-core-grid-transfer/client-jars-full.zip
+/currentServer/software/ncia-core-grid-transfer/client-jars-nodeps.zip
+/currentServer/software/ncia-core-grid-transfer/test/lib
