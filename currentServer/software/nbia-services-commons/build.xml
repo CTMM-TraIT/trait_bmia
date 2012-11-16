@@ -116,8 +116,7 @@
   <target name="run" depends="build-commons, test, inspect, -post-clean" description="Default project target" />
 
   <target name="-post-clean" depends="post-clean-test" description="Performs necessary clean-up after a build">
-    <!-- <delete dir="${assembly.dir}" quiet="false" /> -->
-	<!-- delete temporary disabled -->
+    <delete dir="${assembly.dir}" quiet="false" />
   </target>
 
 </project>
