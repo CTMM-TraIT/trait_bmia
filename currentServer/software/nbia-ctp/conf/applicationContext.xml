@@ -34,6 +34,9 @@
     <property name="jdbcUrl" value="${hibernate.connection.url}"/>
     <property name="user" value="${hibernate.connection.username}"/>
     <property name="password" value="${hibernate.connection.password}"/>
+    <property name="maxIdleTime" value="1800"/>
+    <property name="maxConnectionAge" value="3600"/>
+    <property name="minPoolSize" value="0"/>
   </bean>
 
   <bean id="hProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
