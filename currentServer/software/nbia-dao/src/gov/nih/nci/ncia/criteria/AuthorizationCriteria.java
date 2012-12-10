@@ -1,5 +1,5 @@
 /**
-* $Id: AuthorizationCriteria.java 14146 2011-04-06 17:07:22Z kascice $
+* $Id: AuthorizationCriteria.java 11906 2010-01-22 19:29:41Z kascice $
 *
 * $Log: not supported by cvs2svn $
 * Revision 1.1  2007/08/07 12:05:15  bauerd
@@ -14,7 +14,7 @@
 */
 package gov.nih.nci.ncia.criteria;
 
-import gov.nih.nci.nbia.util.SiteData;
+import gov.nih.nci.ncia.util.SiteData;
 
 import java.util.ArrayList;
 import java.util.List;

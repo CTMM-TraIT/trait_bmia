@@ -6,7 +6,6 @@ package gov.nih.nci.ncia;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import gov.nih.nci.cagrid.introduce.servicetools.security.SecurityUtils;
 import gov.nih.nci.cagrid.ncia.service.NCIACoreServiceConfiguration;
-import gov.nih.nci.nbia.util.Util;
 import gov.nih.nci.ncia.domain.TrialDataProvenance;
 import gov.nih.nci.ncia.griddao.ImageDAOInterface;
 import gov.nih.nci.ncia.gridzip.ZipManager;
@@ -55,24 +54,18 @@ public class ServiceImplHelper {
 			 * STEP 1.1 We will first run the CQL query as a regular query and get a
 			 * list of SOPInstanceUIDs
 			 **********************************************************************/		
-			List<String> sbSOPInstanceUIDList = CQLQueryProcessorUtil.computeSopInstanceUidOrClauseFromQuery(cQLQuery);
-			//String sopString = sbSOPInstanceUIDList.toString();
-			//logger.debug("sopString list: " + sopString.trim());
-			if (sbSOPInstanceUIDList == null) {
+			StringBuffer sbSOPInstanceUIDList = CQLQueryProcessorUtil.computeSopInstanceUidOrClauseFromQuery(cQLQuery);
+			String sopString = sbSOPInstanceUIDList.toString();
+			logger.debug("sopString list: " + sopString.trim());
+			if (sopString == null|| sopString.trim().equals("''")) {
 				return null;
 			}
 	
 			/***********************************************************************
 			 * STEP 1.2 Using this list of SOPInstanceUIDs get the actual files
 			 **********************************************************************/
-			//add some thing hererer --------------==============================
-			Map<String, String> retrievedFileNames = new HashMap<String, String>();
-			List<List<String>> breakdownList = Util.breakListIntoChunks(sbSOPInstanceUIDList, 900);
-			for(List<String> unit : breakdownList)
-			{
-				Map<String, String> fileNames = imageDao.getImagesFiles(unit);
-				retrievedFileNames.putAll(fileNames);
-			}
+	
+			Map<String, String> retrievedFileNames = imageDao.getImagesFiles(sbSOPInstanceUIDList);
 			return retrievedFileNames;
 		}
 		catch(Exception e){

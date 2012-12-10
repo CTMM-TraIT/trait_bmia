@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE server>
-<!-- $Id: properties-service.xml 14371 2012-07-30 16:57:17Z niktevv $ -->
+<!-- $Id: properties-service.xml 13919 2011-03-07 21:14:14Z kascice $ -->
 
 <server>
 
@@ -128,12 +128,12 @@ gov.nih.nci.security.configFile=/usr/local/jboss4/ncia/conf/ApplicationSecurityC
   <attribute name="Properties">local.grid.uri=@local.grid.uri@</attribute>
   <attribute name="Properties">discover.remote.nodes=@discover.remote.nodes@</attribute>
   <attribute name="Properties">discover.period.in.hrs=4</attribute>
-  <attribute name="Properties">lookupManager.className=gov.nih.nci.nbia.lookup.CompositeLookupManager</attribute>
-  <attribute name="Properties">patientSearcherService.className=gov.nih.nci.nbia.remotesearch.CompositePatientSearcherService</attribute>
-  <attribute name="Properties">drilldown.className=gov.nih.nci.nbia.remotesearch.CompositeDrillDown</attribute>
-  <attribute name="Properties">thumbnailResolver.className=gov.nih.nci.nbia.beans.searchresults.DefaultThumbnailURLResolver</attribute>
-  <attribute name="Properties">dicomTagViewer.className=gov.nih.nci.nbia.dicomtags.CompositeDicomTagViewer</attribute>
-  <attribute name="Properties">seriesFileRetriever.className=gov.nih.nci.nbia.zip.CompositeSeriesFileRetriever</attribute>
+  <attribute name="Properties">lookupManager.className=gov.nih.nci.ncia.lookup.CompositeLookupManager</attribute>
+  <attribute name="Properties">patientSearcherService.className=gov.nih.nci.ncia.remotesearch.CompositePatientSearcherService</attribute>
+  <attribute name="Properties">drilldown.className=gov.nih.nci.ncia.remotesearch.CompositeDrillDown</attribute>
+  <attribute name="Properties">thumbnailResolver.className=gov.nih.nci.ncia.beans.searchresults.DefaultThumbnailURLResolver</attribute>
+  <attribute name="Properties">dicomTagViewer.className=gov.nih.nci.ncia.dicomtags.CompositeDicomTagViewer</attribute>
+  <attribute name="Properties">seriesFileRetriever.className=gov.nih.nci.ncia.zip.CompositeSeriesFileRetriever</attribute>
 
 
   <!-- max length for collection description -->
@@ -172,15 +172,10 @@ gov.nih.nci.security.configFile=/usr/local/jboss4/ncia/conf/ApplicationSecurityC
   	qctool.search.results.per.page.option.6=10000
 
   	qctool.search.results.check.uncheck.option=1
-  	qctool.search.results.max.number.of.rows=100000
   </attribute>
 
   <attribute name="Properties">show.collection.search.criteria=@show.collection.search.criteria@</attribute>
-  
-  <attribute name="Properties">show.anatomical.search.criteria=@show.anatomical.search.criteria@</attribute>
-  <attribute name="Properties">gov.nih.nci.ncia.download.no.retry=@gov.nih.nci.ncia.download.no.retry@</attribute>
-  <attribute name="Properties">remote.node.caGrid.version=1.3,1.4</attribute>
-  <attribute name="Properties">future.task.timeout.in.min=5</attribute>
+
   </mbean>
 
 </server>

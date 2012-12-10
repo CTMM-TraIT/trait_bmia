@@ -1,5 +1,5 @@
 /**
-* $Id: MinNumberOfStudiesCriteria.java 14146 2011-04-06 17:07:22Z kascice $
+* $Id: MinNumberOfStudiesCriteria.java 5737 2008-07-23 22:03:44Z kascice $
 *
 * $Log: not supported by cvs2svn $
 * Revision 1.2  2007/08/14 16:53:47  bauerd
@@ -26,7 +26,7 @@
  */
 package gov.nih.nci.ncia.criteria;
 
-import gov.nih.nci.nbia.querystorage.QueryAttributeWrapper;
+import gov.nih.nci.ncia.querystorage.QueryAttributeWrapper;
 
 import java.io.Serializable;
 

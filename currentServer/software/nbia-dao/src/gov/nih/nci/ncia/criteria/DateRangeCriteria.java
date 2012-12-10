@@ -1,5 +1,5 @@
 /**
-* $Id: DateRangeCriteria.java 14146 2011-04-06 17:07:22Z kascice $
+* $Id: DateRangeCriteria.java 13853 2011-02-23 21:51:16Z prakasht $
 *
 * $Log: not supported by cvs2svn $
 * Revision 1.1  2007/08/05 21:44:38  bauerd
@@ -12,8 +12,8 @@
 package gov.nih.nci.ncia.criteria;
 
 
-import gov.nih.nci.nbia.querystorage.QueryAttributeWrapper;
-import gov.nih.nci.nbia.util.CrossDatabaseUtil;
+import gov.nih.nci.ncia.querystorage.QueryAttributeWrapper;
+import gov.nih.nci.ncia.util.CrossDatabaseUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

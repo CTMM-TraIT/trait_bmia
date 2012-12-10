@@ -1,0 +1,33 @@
+/**
+* $Id: UrlParamCriteriaHandler.java 11918 2010-01-22 19:38:59Z kascice $
+*
+* $Log: not supported by cvs2svn $
+* Revision 1.1  2007/08/05 21:44:39  bauerd
+* Initial Check in of reorganized components
+*
+* Revision 1.2  2006/09/27 20:46:27  panq
+* Reformated with Sun Java Code Style and added a header for holding CVS history.
+*
+*/
+package gov.nih.nci.ncia.criteriahandler;
+
+import gov.nih.nci.ncia.criteria.Criteria;
+import gov.nih.nci.ncia.criteria.UrlParamCriteria;
+import static gov.nih.nci.ncia.search.DICOMQueryHandler.*;
+
+
+public class UrlParamCriteriaHandler implements CriteriaHandler {
+    public String handle(String field, Criteria inputCrit)
+        throws Exception {
+        UrlParamCriteria crit = (UrlParamCriteria) inputCrit;
+        String hqlString = "";
+        hqlString += (OPEN_PARENTHESIS + PATIENT_ID + " = '" +
+        crit.getPatientId() + "' ");
+        hqlString += (AND + SERIES_INSTANCE_UID + " = '" +
+        crit.getSeriesInstanceUid() + "' ");
+        hqlString += (AND + STUDY_INSTANCE_UID + " = '" +
+        crit.getStudyInstanceUid() + "' " + CLOSE_PARENTHESIS);
+
+        return hqlString;
+    }
+}

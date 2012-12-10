@@ -1,5 +1,5 @@
 /**
-* $Id: RangeData.java 14146 2011-04-06 17:07:22Z kascice $
+* $Id: RangeData.java 12154 2010-02-17 23:56:06Z kascice $
 *
 * $Log: not supported by cvs2svn $
 * Revision 1.2  2007/08/14 16:53:47  bauerd
@@ -20,9 +20,9 @@
 */
 package gov.nih.nci.ncia.criteria;
 
-import gov.nih.nci.nbia.util.ResourceBundleUtil;
-import gov.nih.nci.nbia.util.StringUtil;
-import gov.nih.nci.nbia.querystorage.QueryAttributeWrapper;
+import gov.nih.nci.ncia.querystorage.QueryAttributeWrapper;
+import gov.nih.nci.ncia.util.StringUtil;
+import gov.nih.nci.ncia.util.ResourceBundleUtil;
 import java.util.ArrayList;
 import java.util.List;
 

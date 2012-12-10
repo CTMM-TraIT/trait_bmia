@@ -126,8 +126,6 @@ public class DownloadsTableModel extends AbstractTableModel
 				return new Float(download.getProgress());
 			case SERIES_ID_COLUMN+4: // Status
 				return AbstractSeriesDownloader.STATUSES[download.getStatus()];
-			case SERIES_ID_COLUMN+5:// Additional Info
-				return download.getAdditionalInfo();
 		}
 		return "";
 	}

@@ -11,7 +11,7 @@ public interface ImageDAOInterface {
 	public List<ZippingDTO> getImagesByNthStudyTimePointForPatient(String patientId,
             Date dateForTimepoint) throws Exception;
 	public Map<String, String> getImagesFiles(
-			List<String> sbSOPInstanceUIDList) throws Exception;
+			StringBuffer sbSOPInstanceUIDList) throws Exception;
 	public Map<String, String> getImagesFilesByPatientId(String patientId) throws Exception;
 	public Map<String, String> getImagesFilesByStudyInstanceUID(
 			String studyInstanceUID) throws Exception;

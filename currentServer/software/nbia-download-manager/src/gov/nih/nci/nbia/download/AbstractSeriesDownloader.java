@@ -157,7 +157,7 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 	                  Integer imagesSize,
 	                  Integer annoSize,
 	                  NBIANode node,
-	                  String seriesIdentifier, Integer noOfRetry){
+	                  String seriesIdentifier){
 
 		this.serverUrl = serverUrl;
 		this.collection = collection;
@@ -173,10 +173,9 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 		this.annoSize = annoSize;
 		this.node = node;
 		this.seriesIdentifier = seriesIdentifier;
-		this.noOfRetry = noOfRetry;
+
 		computeTotalSize();
 		downloaded = 0;
-		this.additionalInfo = new StringBuffer();
     }
 
 
@@ -184,7 +183,7 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
      * Kick off the download for this series.
      */
     public final void run(){
-    	System.out.println("AT THE TOP OF run for series:"+seriesInstanceUid);
+
         status = DOWNLOADING;
         stateChanged();
 
@@ -193,7 +192,6 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 
             runImpl();
 
-            System.out.println("runImpl is done:"+status +" for series:"+seriesInstanceUid);
             //could be NO_DATA or ERROR i think
             if (status == COMPLETE) {
                 downloaded= size;
@@ -203,25 +201,12 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 
         }
         catch (Exception e){
-            //Changed by lrt for tcia -  we do wish to know what happened for debugging purposes.
-            System.out.println("Exception: " + e);
-            e.printStackTrace();
-           // additionalInfo = e.getLocalizedMessage();
             error();
-            // Changed by lrt for tcia -
-            //    keep thread alive to work on other downloads, 
-            //    but wait a moment in case there is a network problem
-            //throw new RuntimeException(e);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-       }
+            throw new RuntimeException(e);
+        }
         long end = System.currentTimeMillis();
-        additionalInfo.append(" - total download time: " + (end - start)/1000 + "s.");
-        System.out.println(additionalInfo.toString());
+
+        System.out.println("total download time: " + (end - start)/1000 + " s.");
     }
 
     /**
@@ -257,8 +242,6 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
     protected String password;
     protected int imagesSize;
     protected int annoSize;
-    protected int noOfRetry;
-    protected StringBuffer additionalInfo;
     protected PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     protected NBIAIOUtils.ProgressInterface progressUpdater = new ProgressUpdater();
@@ -283,19 +266,5 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
         downloaded = bytesReceived;
         stateChanged();
     }
-
-	/**
-	 * @return the additionalInfo
-	 */
-	public StringBuffer getAdditionalInfo() {
-		return additionalInfo;
-	}
-
-	/**
-	 * @param additionalInfo the additionalInfo to set
-	 */
-	public void setAdditionalInfo(StringBuffer additionalInfo) {
-		this.additionalInfo.append(additionalInfo);
-	}
 
 }

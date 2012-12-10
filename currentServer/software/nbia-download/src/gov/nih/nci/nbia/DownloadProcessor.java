@@ -1,17 +1,16 @@
 package gov.nih.nci.nbia;
 
-import gov.nih.nci.nbia.dao.AnnotationDAO;
-import gov.nih.nci.nbia.dao.DownloadDataDAO;
-import gov.nih.nci.nbia.dao.ImageDAO2;
-import gov.nih.nci.nbia.dto.AnnotationDTO;
-import gov.nih.nci.nbia.dto.ImageDTO2;
-import gov.nih.nci.nbia.security.AuthorizationManager;
-import gov.nih.nci.nbia.security.NCIASecurityManager;
-import gov.nih.nci.nbia.security.NCIASecurityManager.RoleType;
-import gov.nih.nci.nbia.util.NCIAConfig;
-import gov.nih.nci.nbia.util.SiteData;
-import gov.nih.nci.nbia.util.SpringApplicationContext;
-
+import gov.nih.nci.ncia.dao.AnnotationDAO;
+import gov.nih.nci.nbia.dao.ImageDAO;
+import gov.nih.nci.ncia.dto.AnnotationDTO;
+import gov.nih.nci.nbia.dto.ImageDTO;
+import gov.nih.nci.ncia.dao.DownloadDataDAO;
+import gov.nih.nci.ncia.security.AuthorizationManager;
+import gov.nih.nci.ncia.security.NCIASecurityManager;
+import gov.nih.nci.ncia.security.NCIASecurityManager.RoleType;
+import gov.nih.nci.ncia.util.NCIAConfig;
+import gov.nih.nci.ncia.util.SiteData;
+import gov.nih.nci.ncia.util.SpringApplicationContext;
 import java.util.List;
 
 
@@ -20,9 +19,9 @@ import java.util.List;
  *
  */
 public class DownloadProcessor {
-    public List<ImageDTO2> process(String seriesInstanceUid, String sopUids){
-        ImageDAO2 imageDAO = (ImageDAO2)SpringApplicationContext.getBean("imageDAO2");
-        List<ImageDTO2> imageResults = imageDAO.findImagesBySeriesUid(seriesInstanceUid, sopUids);
+    public List<ImageDTO> process(String seriesInstanceUid, String sopUids){
+        ImageDAO imageDAO = (ImageDAO)SpringApplicationContext.getBean("imageDAO2");
+        List<ImageDTO> imageResults = imageDAO.findImagesBySeriesUid(seriesInstanceUid, sopUids);
         return imageResults;
     }
 

@@ -257,7 +257,7 @@
 		<runtarget target="postStubs" />
 	</target>
 
-	<target name="stubGenerationPostProcessor" depends="defineClasspaths">
+	<target name="stubGenerationPostProcessor">
 		<taskdef name="fixSoapBindingStubs" classname="gov.nih.nci.cagrid.introduce.servicetasks.axis.FixSoapBindingStub" classpathref="tasks.run.classpath">
 		</taskdef>
 		<fixSoapBindingStubs />

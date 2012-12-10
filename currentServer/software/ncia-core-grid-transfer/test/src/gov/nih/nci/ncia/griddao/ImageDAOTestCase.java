@@ -21,13 +21,12 @@ public class ImageDAOTestCase extends AbstractDbUnitTestForJunit4 {
 
 	@Test
 	public void testGetImagesFiles() throws Exception{
-		List<String> sopInstanceUIDList = new ArrayList<String>(); 
-		sopInstanceUIDList.add("1.3.6.1.4.1.9328.50.3.170");
-		sopInstanceUIDList.add("1.3.6.1.4.1.9328.50.3.171");
-		sopInstanceUIDList.add("1.3.6.1.4.1.9328.50.3.172");
-		sopInstanceUIDList.add("1.3.6.1.4.1.9328.50.3.173");
+		String sopInstanceUIDList = "'1.3.6.1.4.1.9328.50.3.170' OR "+
+		                            "SOP_INSTANCE_UID = '1.3.6.1.4.1.9328.50.3.171' OR "+
+			                        "SOP_INSTANCE_UID = '1.3.6.1.4.1.9328.50.3.172' OR "+
+			                        "SOP_INSTANCE_UID = '1.3.6.1.4.1.9328.50.3.173'";
 
-		Map<String, String> sopToFilePathMap = imageDAO.getImagesFiles(sopInstanceUIDList);
+		Map<String, String> sopToFilePathMap = imageDAO.getImagesFiles(new StringBuffer(sopInstanceUIDList));
 		System.out.println("Size:"+sopToFilePathMap.size());
 //		for(String k : sopToFilePathMap.keySet()) {
 //			System.out.println(k+"="+sopToFilePathMap.get(k));
@@ -44,10 +43,9 @@ public class ImageDAOTestCase extends AbstractDbUnitTestForJunit4 {
 	
 	@Test
 	public void testGetImagesFilesEmpty() throws Exception {
-		List<String> sopInstanceUIDList = new ArrayList<String>();
-		sopInstanceUIDList.add("fred");
+		String sopInstanceUIDList = "'fred'";
 
-		Map<String, String> sopToFilePathMap = imageDAO.getImagesFiles(sopInstanceUIDList);
+		Map<String, String> sopToFilePathMap = imageDAO.getImagesFiles(new StringBuffer(sopInstanceUIDList));
 
 		Assert.assertTrue(sopToFilePathMap.size()==0);
 	}

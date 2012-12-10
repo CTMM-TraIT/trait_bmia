@@ -1,5 +1,5 @@
 /**
-* $Id: PersistentCriteria.java 14146 2011-04-06 17:07:22Z kascice $
+* $Id: PersistentCriteria.java 11910 2010-01-22 19:32:00Z kascice $
 *
 * $Log: not supported by cvs2svn $
 * Revision 1.3  2007/08/15 16:50:00  bauerd
@@ -23,8 +23,8 @@
 */
 package gov.nih.nci.ncia.criteria;
 
-import gov.nih.nci.nbia.util.ResourceBundleUtil;
-import gov.nih.nci.nbia.querystorage.QueryAttributeWrapper;
+import gov.nih.nci.ncia.querystorage.QueryAttributeWrapper;
+import gov.nih.nci.ncia.util.ResourceBundleUtil;
 
 import java.util.List;
 

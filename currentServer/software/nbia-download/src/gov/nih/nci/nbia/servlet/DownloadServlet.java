@@ -1,17 +1,14 @@
 package gov.nih.nci.nbia.servlet;
 
 import gov.nih.nci.nbia.DownloadProcessor;
-import gov.nih.nci.nbia.dto.AnnotationDTO;
-import gov.nih.nci.nbia.dto.ImageDTO2;
+import gov.nih.nci.ncia.dto.AnnotationDTO;
+import gov.nih.nci.nbia.dto.ImageDTO;
 import gov.nih.nci.security.util.StringEncrypter;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -41,29 +37,23 @@ public class DownloadServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
               HttpServletResponse response) throws ServletException,IOException {
-        //first check if its download for jnlpfile at server or dicom images download
-        String serverjnlpfileloc = request.getParameter("serverjnlpfileloc"); 
-        if(StringUtils.isNotBlank(serverjnlpfileloc)) {
-            downloadJNLPDataFile(serverjnlpfileloc, response);
-        } else {
-            String seriesUid = request.getParameter("seriesUid");
-            String userId = request.getParameter("userId");
-            String password = request.getHeader("password");
-            Boolean includeAnnotation = Boolean.valueOf(request.getParameter("includeAnnotation"));
-            Boolean hasAnnotation = Boolean.valueOf(request.getParameter("hasAnnotation"));
-            String sopUids = request.getParameter("sopUids");
+        String seriesUid = request.getParameter("seriesUid");
+        String userId = request.getParameter("userId");
+        String password = request.getHeader("password");
+        Boolean includeAnnotation = Boolean.valueOf(request.getParameter("includeAnnotation"));
+        Boolean hasAnnotation = Boolean.valueOf(request.getParameter("hasAnnotation"));
+        String sopUids = request.getParameter("sopUids");
 
-            logger.info("sopUids:"+sopUids);
-            logger.info("seriesUid: " + seriesUid + " userId: " + userId + " includeAnnotation: " + includeAnnotation + " hasAnnotation: " + hasAnnotation);
+        logger.info("sopUids:"+sopUids);
+        logger.info("seriesUid: " + seriesUid + " userId: " + userId + " includeAnnotation: " + includeAnnotation + " hasAnnotation: " + hasAnnotation);
 
-            processRequest(response,
+        processRequest(response,
                        seriesUid,
                        userId,
                        password,
                        includeAnnotation,
                        hasAnnotation,
                        sopUids);
-        	}
     }
     protected void processRequest(HttpServletResponse response,
             String seriesUid,
@@ -82,7 +72,7 @@ public class DownloadServlet extends HttpServlet {
         }catch(Exception e){
             throw new RuntimeException(e);
         }
-        List<ImageDTO2> imageResults = processor.process(seriesUid, sopUids);
+        List<ImageDTO> imageResults = processor.process(seriesUid, sopUids);
         if((imageResults == null) || imageResults.isEmpty() ){
             //no data for this series
             logger.info("no data for series: " +seriesUid);
@@ -105,7 +95,7 @@ public class DownloadServlet extends HttpServlet {
         }
     }
     private void sendResponse(HttpServletResponse response,
-            List<ImageDTO2> imageResults,
+            List<ImageDTO> imageResults,
             List<AnnotationDTO> annoResults) throws IOException {
 
         TarArchiveOutputStream tos = new TarArchiveOutputStream(response.getOutputStream());
@@ -125,11 +115,11 @@ public class DownloadServlet extends HttpServlet {
         }
     }
 
-    private void sendImagesData(List<ImageDTO2> imageResults,
+    private void sendImagesData(List<ImageDTO> imageResults,
                                 TarArchiveOutputStream tos) throws IOException {
 
         InputStream dicomIn = null;
-        for (ImageDTO2 imageDto : imageResults){
+        for (ImageDTO imageDto : imageResults){
              String filePath = imageDto.getFileName();
              String sop = imageDto.getSOPInstanceUID();
 
@@ -137,15 +127,15 @@ public class DownloadServlet extends HttpServlet {
              try {
                   File dicomFile = new File(filePath);
                   ArchiveEntry tarArchiveEntry = tos.createArchiveEntry(dicomFile, sop + ".dcm");
-                  dicomIn = new FileInputStream(dicomFile);
+
                   tos.putArchiveEntry(tarArchiveEntry);
+
+                  dicomIn = new FileInputStream(dicomFile);
+
                   IOUtils.copy(dicomIn, tos);
+
                   tos.closeArchiveEntry();
-             } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                //just print the exception and continue the loop so rest of images will get download.
-             }
-             finally {
+             } finally {
                   IOUtils.closeQuietly(dicomIn);
                   logger.info("DownloadServlet Image transferred at " + new Date().getTime());
              }
@@ -162,14 +152,11 @@ public class DownloadServlet extends HttpServlet {
             try {
                 File annotationFile = new File(filePath);
                 ArchiveEntry tarArchiveEntry = tos.createArchiveEntry(annotationFile, fileName);
-                annoIn = new FileInputStream(annotationFile);
                 tos.putArchiveEntry(tarArchiveEntry);
+                annoIn = new FileInputStream(annotationFile);
                 IOUtils.copy(annoIn, tos);
                 tos.closeArchiveEntry();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                //just print the exception and continue the loop so rest of images will get download.
-             }
+            }
             finally {
                 IOUtils.closeQuietly(annoIn);
                 logger.info("DownloadServlet Annotation transferred at "
@@ -185,10 +172,10 @@ public class DownloadServlet extends HttpServlet {
             return decrypter.decrypt(password);
         }
     }
-    private static long computeContentLength(List<ImageDTO2> imageResults,
+    private static long computeContentLength(List<ImageDTO> imageResults,
                     List<AnnotationDTO> annoResults) {
         long contentSize=0;
-        for(ImageDTO2 imageDto : imageResults){
+        for(ImageDTO imageDto : imageResults){
             contentSize += imageDto.getDicomSize();
         }
         for(AnnotationDTO annoDto : annoResults){
@@ -196,18 +183,4 @@ public class DownloadServlet extends HttpServlet {
         }
         return contentSize;
     }
-    private void downloadJNLPDataFile(String fileName, HttpServletResponse response) {
-            logger.info("looking for file name ..."+fileName);
-            System.out.println("looking for file name ..."+fileName);
-            response.setContentType("text/plain");
-            response.setHeader("Content-Disposition","attachment;filename=downloadname.txt");
-            try{
-                List <String> readLines = IOUtils.readLines(new FileReader(fileName));
-                OutputStream os = response.getOutputStream();
-                IOUtils.writeLines(readLines, System.getProperty("line.separator"), os);
-                os.close();	
-            } catch (IOException e){
-              e.printStackTrace();
-        }
-     }
 }

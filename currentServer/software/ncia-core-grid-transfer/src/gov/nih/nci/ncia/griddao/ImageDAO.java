@@ -3,12 +3,12 @@
  */
 package gov.nih.nci.ncia.griddao;
 
-import gov.nih.nci.nbia.internaldomain.Annotation;
-import gov.nih.nci.nbia.internaldomain.GeneralImage;
-import gov.nih.nci.nbia.util.HqlUtils;
-import gov.nih.nci.nbia.util.NCIAConfig;
 import gov.nih.nci.ncia.domain.Image;
 import gov.nih.nci.ncia.gridzip.ZippingDTO;
+import gov.nih.nci.ncia.internaldomain.Annotation;
+import gov.nih.nci.ncia.internaldomain.GeneralImage;
+import gov.nih.nci.ncia.util.HqlUtils;
+import gov.nih.nci.ncia.util.NCIAConfig;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -52,22 +52,20 @@ public class ImageDAO extends HibernateDaoSupport implements ImageDAOInterface{
 	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Map<String, String> getImagesFiles(
-			List<String> sbSOPInstanceUIDList) throws Exception{
+			StringBuffer sbSOPInstanceUIDList) throws Exception{
 		Map<String, String> retrievedFileNames = new HashMap<String, String>();
 
-		if (sbSOPInstanceUIDList == null){
+		if (sbSOPInstanceUIDList == null
+					||  sbSOPInstanceUIDList.length() <= 0) {
 			return null;
 		}
-		if(sbSOPInstanceUIDList.size() > 0)
-		{
-			String sopInstanceList = HqlUtils.buildInClause("", sbSOPInstanceUIDList);
-			
-			String hql = IMAGE_STATEMENT +
-			             " WHERE gi.SOPInstanceUID in " +
-			             sopInstanceList;
-			List<GeneralImage> rs = this.getHibernateTemplate().find(hql);
-			retrievedFileNames = process(rs);
-		}
+
+		String hql = IMAGE_STATEMENT +
+		             " WHERE SOPInstanceUID = " +
+		              sbSOPInstanceUIDList;
+
+		List<GeneralImage> rs = this.getHibernateTemplate().find(hql);
+		retrievedFileNames = process(rs);
 		return retrievedFileNames;
 	}
 
