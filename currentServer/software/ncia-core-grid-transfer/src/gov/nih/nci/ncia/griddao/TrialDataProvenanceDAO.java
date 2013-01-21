@@ -3,8 +3,8 @@
  */
 package gov.nih.nci.ncia.griddao;
 
+import gov.nih.nci.nbia.util.HqlUtils;
 import gov.nih.nci.ncia.domain.TrialDataProvenance;
-import gov.nih.nci.ncia.util.HqlUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -79,7 +79,7 @@ public class TrialDataProvenanceDAO extends HibernateDaoSupport implements Trial
 
 		for(Object[] result : rs) {
 			String id = (String)result[0];
-			gov.nih.nci.ncia.internaldomain.TrialDataProvenance tdp = (gov.nih.nci.ncia.internaldomain.TrialDataProvenance)result[1];
+			gov.nih.nci.nbia.internaldomain.TrialDataProvenance tdp = (gov.nih.nci.nbia.internaldomain.TrialDataProvenance)result[1];
 			//needs to convert internalDomain TrialDataProvenance to domain TrialDataProvenance
 			TrialDataProvenance tdp_domain = new TrialDataProvenance();
 			tdp_domain.setProject(tdp.getProject());
