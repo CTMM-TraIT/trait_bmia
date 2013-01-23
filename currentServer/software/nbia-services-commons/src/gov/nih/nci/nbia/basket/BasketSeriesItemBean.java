@@ -332,10 +332,43 @@ public class BasketSeriesItemBean implements Comparable<BasketSeriesItemBean> {
 	public void setLocationDisplayName(String locationDisplayName) {
 		this.locationDisplayName = locationDisplayName;
 	}
+	
+	/**
+	 * Gets the modality name for passing to the DynamicJNLPServlet
+	 * @return modality name as String
+	 */
+	public String getModality() {
+		return modality;
+	}
+
+	/**
+	 * Sets the modality name
+	 * @param modality
+	 */
+	public void setModality(String modality) {
+		this.modality = modality;
+	}
+
+	/**
+	 * Gets the SOP Instance UID of the specific image
+	 * @return SOP Instance UID
+	 */
+	public String getImageId() {
+		return imageId;
+	}
+
+	/**
+	 * Sets the SOP Instance UID for the specific image
+	 * @param imageId
+	 */
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
+	}
 
 	////////////////////////////////////////PRIVATE////////////////////////////////////
 
-    // Data fields
+
+	// Data fields
     private String patientId;
     private String studyId;
     private String seriesId;
@@ -347,6 +380,8 @@ public class BasketSeriesItemBean implements Comparable<BasketSeriesItemBean> {
     private boolean annotationsFlag;
     private Long annotationsSize = 0L;
     private String gridLocation;
+    private String modality;
+    private String imageId;
 
     private String locationDisplayName;
 

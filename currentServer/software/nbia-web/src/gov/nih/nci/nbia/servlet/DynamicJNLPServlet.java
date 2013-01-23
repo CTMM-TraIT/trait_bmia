@@ -56,11 +56,16 @@ public class DynamicJNLPServlet extends HttpServlet
 				String collection = bsib.get(i).getProject();
 				String patientId = bsib.get(i).getPatientId();
 				String studyInstanceUid = bsib.get(i).getStudyId();
-				String seriesInstanceUid =bsib.get(i).getSeriesId();
+				String modality = bsib.get(i).getModality();
+				String seriesInstanceUid = bsib.get(i).getSeriesId();
 				String annotation = bsib.get(i).getAnnotated();
 				Integer numberImages = bsib.get(i).getTotalImagesInSeries();
+				
+				//if(modality.equals("") || modality == null)
+				modality = "NA";
+				
 				String argument = "<argument>" +collection + "|" + patientId + 
-				"|"+studyInstanceUid + "|" + seriesInstanceUid+ "|" + annotation + "|" + numberImages +"</argument>" ;
+				"|"+studyInstanceUid + "|" + modality + "|" + seriesInstanceUid+ "|" + annotation + "|" + numberImages +"</argument>" ;
 				//System.out.println(i + "\t" + collection + "|" + patientId + "|"+studyInstanceUid + "|" + seriesInstanceUid+ "|" + annotation);
 
 				argsBuilder.append(argument);
@@ -140,12 +145,21 @@ public class DynamicJNLPServlet extends HttpServlet
 
 		br.close();
 
-		this.replaceCodebase( req, sbuilder );
+		// @author johan: changed replaceCodeBase function, therefore needed to clear and append sbuilder variable
+		String replacedCodebase = this.replaceCodebase( req, sbuilder );
+		sbuilder.delete(0, sbuilder.length());
+		sbuilder.append(replacedCodebase);
+		
 		return sbuilder;
 	}
 
-	private void replaceCodebase( HttpServletRequest req, StringBuffer jnlpBuilder ) {
-		int start = jnlpBuilder.toString().indexOf( "$$codebase" );
+	/**
+	 * Replaces $$codebase with the current URL
+	 * @param req current servlet request
+	 * @param jnlpBuilder the string containing the JNLP base file contents
+	 */
+	private String replaceCodebase( HttpServletRequest req, StringBuffer jnlpBuilder ) {
+		/*int start = jnlpBuilder.toString().indexOf( "$$codebase" );
 		int length = "$$codebase".length();
 
 		String uriSansContext = req.getRequestURI().substring(
@@ -162,7 +176,10 @@ public class DynamicJNLPServlet extends HttpServlet
 		start = jnlpBuilder.toString().indexOf( "$$codebase" );
 		if(start > 0){
 			jnlpBuilder.replace( start, start+length, codebase );
-		}
+		}*/
+		String jnlpBaseFile = jnlpBuilder.toString();
+		String newUrl = req.getScheme() + "://" + req.getServerName();
+		return jnlpBaseFile.replace("$$codebase", newUrl);
 	}
 
 

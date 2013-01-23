@@ -100,7 +100,9 @@ public class LocalSeriesDownloader extends AbstractSeriesDownloader {
                                File.separator +
                                this.studyInstanceUid +
                                File.separator +
-                               this.seriesIdentifier;
+                               this.modality +
+                               File.separator +
+                               this.seriesInstanceUid;
         File f = new File(localLocation);
         try{
             int count = 0;
@@ -297,13 +299,14 @@ public class LocalSeriesDownloader extends AbstractSeriesDownloader {
                 String sop = tarArchiveEntry.getName();
                 int pos = sop.indexOf(".dcm");
                 OutputStream outputStream = null;
-                if(pos > 0){
+                outputStream = new FileOutputStream(location + File.separator + sop);
+                /*if(pos > 0){
                     // sopUidsList.add(sop.substring(0, pos)); - lrt moved to below, after file size check
                     outputStream = new FileOutputStream(location  + File.separator + StringUtil.displayAsSixDigitString(imageCnt)+".dcm");
                 }
                 else {
                     outputStream = new FileOutputStream(location  + File.separator + sop);
-                }
+                }*/
 
                 try {
                     NBIAIOUtils.copy(zis, outputStream, progressUpdater);

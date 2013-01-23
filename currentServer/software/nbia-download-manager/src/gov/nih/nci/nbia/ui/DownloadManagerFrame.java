@@ -229,6 +229,7 @@ public class DownloadManagerFrame extends JFrame implements Observer {
                                    seriesData.get(i).getCollection(),
                                    seriesData.get(i).getPatientId(),
                                    seriesData.get(i).getStudyInstanceUid(),
+                                   seriesData.get(i).getModality(),
                                    seriesData.get(i).getSeriesInstanceUid(),
                                    this.includeAnnotation,
                                    seriesData.get(i).isHasAnnotation(),

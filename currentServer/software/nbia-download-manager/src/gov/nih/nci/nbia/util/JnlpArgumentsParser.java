@@ -18,25 +18,28 @@ public class JnlpArgumentsParser {
         List<SeriesData> seriesDataList = new ArrayList<SeriesData>();
         for(int i=0; i< length; i++ ) {
             SeriesData series = new SeriesData();
+            System.out.println("---------------------Split string----------------");
+            System.out.println(args[i]);
             String[] result = StringUtils.split(args[i],"\\|");
             if(result != null && result.length > 0) {
                 series.setCollection(result[0]);
                 series.setPatientId(result[1]);
                 series.setStudyInstanceUid(result[2]);
-                series.setSeriesInstanceUid(result[3]);
-                if(result[4].equalsIgnoreCase("yes") ){
+                series.setModality(result[3]);
+                series.setSeriesInstanceUid(result[4]);
+                if(result[5].equalsIgnoreCase("yes") ){
                     series.setHasAnnotation(true);
-                }else if(Boolean.valueOf(result[4])){
+                }else if(Boolean.valueOf(result[5])){
                     series.setHasAnnotation(true);
                 }
                 //series.setHasAnnotation(Boolean.valueOf(result[4]));
-                series.setNumberImages(result[5]);
-                series.setImagesSize(Integer.valueOf(result[6]));
-                series.setAnnoSize(Integer.valueOf(result[7]));
+                series.setNumberImages(result[6]);
+                series.setImagesSize(Integer.valueOf(result[7]));
+                series.setAnnoSize(Integer.valueOf(result[8]));
 
-                series.setUrl(result[8]);
-                series.setDisplayName(result[9]);
-                series.setLocal(Boolean.valueOf(result[10]));
+                series.setUrl(result[9]);
+                series.setDisplayName(result[10]);
+                series.setLocal(Boolean.valueOf(result[11]));
 
                 seriesDataList.add(series);
             }

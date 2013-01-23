@@ -260,6 +260,7 @@ System.out.println("!!!form get= "+result.getSeriesSearchResult().getId() +
 		returnBean.setStudyPkId(seriesDTO.getStudyId());
 		returnBean.setTotalImagesInSeries(seriesDTO.getNumberImages());
 		returnBean.setTotalSizeForAllImagesInSeries(seriesDTO.getTotalSizeForAllImagesInSeries());
+		returnBean.setModality(seriesDTO.getModality());
 
 		return returnBean;
 	}        

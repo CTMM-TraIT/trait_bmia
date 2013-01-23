@@ -148,6 +148,7 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 	                  String collection,
 	                  String patientId,
 	                  String studyInstanceUid,
+	                  String modality,
 	                  String seriesInstanceUid,
 	                  boolean includeAnnotation,
 	                  boolean hasAnnotation,
@@ -163,6 +164,7 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 		this.collection = collection;
 		this.patientId = patientId;
 		this.studyInstanceUid = studyInstanceUid;
+		this.modality = modality;
 		this.seriesInstanceUid = seriesInstanceUid;
 		this.includeAnnotation = includeAnnotation;
 		this.hasAnnotation = hasAnnotation;
@@ -243,6 +245,7 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
     protected String collection;
     protected String patientId;
     protected String studyInstanceUid;
+    protected String modality;
     protected String seriesInstanceUid;
     protected int size; // size of download in bytes
     protected int downloaded; // number of bytes downloaded

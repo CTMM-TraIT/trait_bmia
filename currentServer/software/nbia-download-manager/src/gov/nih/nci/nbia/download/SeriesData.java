@@ -5,6 +5,7 @@ public class SeriesData {
 	private String collection;
 	private String patientId;
 	private String studyInstanceUid;
+	private String modality;
 	private String seriesInstanceUid;
 	private boolean hasAnnotation;
 	private String numberImages;
@@ -61,6 +62,12 @@ public class SeriesData {
 	}
 	public void setStudyInstanceUid(String studyInstanceUid) {
 		this.studyInstanceUid = studyInstanceUid;
+	}
+	public String getModality() {
+		return modality;
+	}
+	public void setModality(String modality) {
+		this.modality = modality;
 	}
 	public String getSeriesInstanceUid() {
 		return seriesInstanceUid;
