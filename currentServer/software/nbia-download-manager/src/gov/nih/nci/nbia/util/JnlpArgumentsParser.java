@@ -34,12 +34,13 @@ public class JnlpArgumentsParser {
                 }
                 //series.setHasAnnotation(Boolean.valueOf(result[4]));
                 series.setNumberImages(result[6]);
-                series.setImagesSize(Integer.valueOf(result[7]));
-                series.setAnnoSize(Integer.valueOf(result[8]));
+                series.setImageUid(result[7]);
+                series.setImagesSize(Integer.valueOf(result[8]));
+                series.setAnnoSize(Integer.valueOf(result[9]));
 
-                series.setUrl(result[9]);
-                series.setDisplayName(result[10]);
-                series.setLocal(Boolean.valueOf(result[11]));
+                series.setUrl(result[10]);
+                series.setDisplayName(result[11]);
+                series.setLocal(Boolean.valueOf(result[12]));
 
                 seriesDataList.add(series);
             }

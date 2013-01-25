@@ -9,6 +9,7 @@ public class SeriesData {
 	private String seriesInstanceUid;
 	private boolean hasAnnotation;
 	private String numberImages;
+	private String imageUid;
 	private Integer imagesSize;
 	private Integer annoSize;
 	private String url;
@@ -87,6 +88,11 @@ public class SeriesData {
 	public void setLocal(boolean local) {
 		this.local = local;
 	}
-	
+	public String getImageUid() {
+		return imageUid;
+	}
+	public void setImageUid(String imageUid) {
+		this.imageUid = imageUid;
+	}
 
 }

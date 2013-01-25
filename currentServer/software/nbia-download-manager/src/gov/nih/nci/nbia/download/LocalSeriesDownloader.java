@@ -299,7 +299,7 @@ public class LocalSeriesDownloader extends AbstractSeriesDownloader {
                 String sop = tarArchiveEntry.getName();
                 int pos = sop.indexOf(".dcm");
                 OutputStream outputStream = null;
-                outputStream = new FileOutputStream(location + File.separator + sop);
+                outputStream = new FileOutputStream(location + File.separator + this.imageUid + ".dcm");
                 /*if(pos > 0){
                     // sopUidsList.add(sop.substring(0, pos)); - lrt moved to below, after file size check
                     outputStream = new FileOutputStream(location  + File.separator + StringUtil.displayAsSixDigitString(imageCnt)+".dcm");
