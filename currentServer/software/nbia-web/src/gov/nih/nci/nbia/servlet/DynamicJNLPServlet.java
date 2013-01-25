@@ -5,6 +5,8 @@ package gov.nih.nci.nbia.servlet;
 
 /**
  * @author lethai
+ * @author Johan van Soest
+ * comment by Johan: This class is not in action anymore, and should therefore be deprecated!
  *
  */
 
