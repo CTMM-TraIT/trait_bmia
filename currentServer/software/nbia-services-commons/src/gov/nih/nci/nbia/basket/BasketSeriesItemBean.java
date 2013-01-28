@@ -349,22 +349,6 @@ public class BasketSeriesItemBean implements Comparable<BasketSeriesItemBean> {
 		this.modality = modality;
 	}
 
-	/**
-	 * Gets the SOP Instance UID of the specific image
-	 * @return SOP Instance UID
-	 */
-	public String getImageId() {
-		return imageId;
-	}
-
-	/**
-	 * Sets the SOP Instance UID for the specific image
-	 * @param imageId
-	 */
-	public void setImageId(String imageId) {
-		this.imageId = imageId;
-	}
-
 	////////////////////////////////////////PRIVATE////////////////////////////////////
 
 
@@ -381,7 +365,6 @@ public class BasketSeriesItemBean implements Comparable<BasketSeriesItemBean> {
     private Long annotationsSize = 0L;
     private String gridLocation;
     private String modality;
-    private String imageId;
 
     private String locationDisplayName;
 

@@ -18,8 +18,6 @@ public class JnlpArgumentsParser {
         List<SeriesData> seriesDataList = new ArrayList<SeriesData>();
         for(int i=0; i< length; i++ ) {
             SeriesData series = new SeriesData();
-            System.out.println("---------------------Split string----------------");
-            System.out.println(args[i]);
             String[] result = StringUtils.split(args[i],"\\|");
             if(result != null && result.length > 0) {
                 series.setCollection(result[0]);
@@ -34,13 +32,12 @@ public class JnlpArgumentsParser {
                 }
                 //series.setHasAnnotation(Boolean.valueOf(result[4]));
                 series.setNumberImages(result[6]);
-                series.setImageUid(result[7]);
-                series.setImagesSize(Integer.valueOf(result[8]));
-                series.setAnnoSize(Integer.valueOf(result[9]));
+                series.setImagesSize(Integer.valueOf(result[7]));
+                series.setAnnoSize(Integer.valueOf(result[8]));
 
-                series.setUrl(result[10]);
-                series.setDisplayName(result[11]);
-                series.setLocal(Boolean.valueOf(result[12]));
+                series.setUrl(result[9]);
+                series.setDisplayName(result[10]);
+                series.setLocal(Boolean.valueOf(result[11]));
 
                 seriesDataList.add(series);
             }

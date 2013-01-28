@@ -153,7 +153,6 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 	                  boolean includeAnnotation,
 	                  boolean hasAnnotation,
 	                  String numberOfImages,
-	                  String imageUid,
 	                  String userId,
 	                  String password,
 	                  Integer imagesSize,
@@ -170,7 +169,6 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 		this.includeAnnotation = includeAnnotation;
 		this.hasAnnotation = hasAnnotation;
 		this.numberOfImages = numberOfImages;
-		this.imageUid = imageUid;
 		this.userId = userId;
 		this.password = password;
 		this.imagesSize = imagesSize;
@@ -261,7 +259,6 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
     protected String numberOfImages;
     protected String password;
     protected int imagesSize;
-    protected String imageUid;
     protected int annoSize;
     protected int noOfRetry;
     protected StringBuffer additionalInfo;

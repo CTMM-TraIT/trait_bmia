@@ -46,7 +46,6 @@ public class DynamicJNLPGenerator {
                 String modality = seriesItem.getModality();
                 String seriesInstanceUid =seriesItem.getSeriesId();
                 String annotation = seriesItem.getAnnotated();
-                String imageUid = seriesItem.getImageId();
                 Integer numberImages = seriesItem.getTotalImagesInSeries();
                 Long imagesSize = seriesItem.getExactSize();
                 Long annoSize = seriesItem.getAnnotationsSize();
@@ -62,7 +61,6 @@ public class DynamicJNLPGenerator {
                                   seriesInstanceUid+ "|" +
                                   annotation + "|" +
                                   numberImages + "|" +
-                                  imageUid + "|" +
                                   imagesSize + "|" +
                                   annoSize + "|" +
                                   url + "|" +
