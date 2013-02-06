@@ -5,8 +5,8 @@ import gov.nih.nci.nbia.download.SeriesDownloaderFactory;
 import gov.nih.nci.nbia.download.AbstractSeriesDownloader;
 import gov.nih.nci.nbia.download.SeriesData;
 import gov.nih.nci.nbia.util.ThreadPool;
-import gov.nih.nci.ncia.util.PropertyLoader;
-import gov.nih.nci.ncia.util.StringUtil;
+import gov.nih.nci.nbia.util.PropertyLoader;
+import gov.nih.nci.nbia.util.StringUtil;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -27,6 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -56,6 +57,7 @@ public class DownloadManagerFrame extends JFrame implements Observer {
     private AbstractSeriesDownloader selectedDownload;
     private String userId="";
     private String password;
+    private Integer noOfRetry;
     /*include annotation as part of the download if the series has annotation.*/
     private boolean includeAnnotation = true;
 
@@ -72,9 +74,11 @@ public class DownloadManagerFrame extends JFrame implements Observer {
     		                    String password,
     		                    boolean includeAnnotation,
     		                    List<SeriesData> series,
-    		                    String downloadServerUrl){
+    		                    String downloadServerUrl, Integer noOfRetry){
         this.userId = userId;
         this.includeAnnotation = includeAnnotation;
+        this.noOfRetry = noOfRetry;
+        this.errorText = "An error has occurred.";
         buildUI();
         PropertyLoader.loadProperties("config.properties");
         this.maxThreads = Application.getNumberOfMaxThreads();
@@ -137,6 +141,15 @@ public class DownloadManagerFrame extends JFrame implements Observer {
                 tableSelectionChanged();
             }
         });
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                int row=table.rowAtPoint(e.getPoint());
+                int col= table.columnAtPoint(e.getPoint());
+                if (col == DownloadsTableModel.SERIES_ID_COLUMN + 4) {
+                    JOptionPane.showMessageDialog(null," Detail status :- " +tableModel.getValueAt(row,DownloadsTableModel.SERIES_ID_COLUMN+5).toString());
+                    }
+                }
+            });
     }
     private void createMenuBar(){
         JMenuBar menuBar = new MenuBar();
@@ -216,6 +229,7 @@ public class DownloadManagerFrame extends JFrame implements Observer {
                                    seriesData.get(i).getCollection(),
                                    seriesData.get(i).getPatientId(),
                                    seriesData.get(i).getStudyInstanceUid(),
+                                   seriesData.get(i).getModality(),
                                    seriesData.get(i).getSeriesInstanceUid(),
                                    this.includeAnnotation,
                                    seriesData.get(i).isHasAnnotation(),
@@ -227,7 +241,7 @@ public class DownloadManagerFrame extends JFrame implements Observer {
                                    seriesDownloader.constructNode(seriesData.get(i).getUrl(),
                                 		                          seriesData.get(i).getDisplayName(),
                                 		                          seriesData.get(i).isLocal()),
-                                   StringUtil.displayAsSixDigitString(seriesCnt));
+                                   StringUtil.displayAsSixDigitString(seriesCnt), noOfRetry);
             tableModel.addDownload(seriesDownloader);
 
             studyIdToSeriesCntMap.put(seriesData.get(i).getStudyInstanceUid(),
@@ -283,7 +297,7 @@ public class DownloadManagerFrame extends JFrame implements Observer {
                     pool.assign(tableModel.getDownload(i));
                     tableModel.getDownload(i).addPropertyChangeListener(propertyChangeListener);
                 }
-                pool.addThreadPoolListener(new ButtonUpdater(pauseButton, resumeButton));
+                pool.addThreadPoolListener(new ButtonUpdater(pauseButton, resumeButton, errorLabel));  // lrt - changed to add errorLabel as a param
             }
         });
         pauseButton.setEnabled(true);
@@ -308,8 +322,8 @@ public class DownloadManagerFrame extends JFrame implements Observer {
         int size = tableModel.getRowCount();
         for (int i=0;i<size;i++) {
         	AbstractSeriesDownloader sd = tableModel.getDownload(i);
-
-            if(sd.getStatus() == AbstractSeriesDownloader.PAUSED || sd.getStatus() == AbstractSeriesDownloader.NOT_STARTED){
+            if(sd.getStatus() == AbstractSeriesDownloader.PAUSED 
+                    || sd.getStatus() == AbstractSeriesDownloader.NOT_STARTED){
                 pool.assign(tableModel.getDownload(i));
             }
 

@@ -1,5 +1,5 @@
 /**
-* $Id: KilovoltagePeakDistribution.java 4417 2008-04-18 20:43:12Z saksass $
+* $Id: KilovoltagePeakDistribution.java 14146 2011-04-06 17:07:22Z kascice $
 *
 * $Log: not supported by cvs2svn $
 * Revision 1.3  2007/08/15 16:49:59  bauerd
@@ -29,7 +29,7 @@
  */
 package gov.nih.nci.ncia.criteria;
 
-import gov.nih.nci.ncia.querystorage.QueryAttributeWrapper;
+import gov.nih.nci.nbia.querystorage.QueryAttributeWrapper;
 
 import java.io.Serializable;
 import java.util.ArrayList;

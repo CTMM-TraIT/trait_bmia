@@ -1,5 +1,5 @@
 /**
-* $Id: SingleValuePersistentCriteria.java 11907 2010-01-22 19:30:17Z kascice $
+* $Id: SingleValuePersistentCriteria.java 14146 2011-04-06 17:07:22Z kascice $
 *
 * $Log: not supported by cvs2svn $
 * Revision 1.1  2007/08/07 12:05:15  bauerd
@@ -14,8 +14,8 @@
 */
 package gov.nih.nci.ncia.criteria;
 
-import gov.nih.nci.ncia.querystorage.QueryAttributeWrapper;
-import gov.nih.nci.ncia.util.QueryStorageConstants;
+import gov.nih.nci.nbia.querystorage.QueryAttributeWrapper;
+import gov.nih.nci.nbia.util.QueryStorageConstants;
 
 import java.util.ArrayList;
 import java.util.List;

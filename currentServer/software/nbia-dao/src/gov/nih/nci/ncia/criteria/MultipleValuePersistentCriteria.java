@@ -1,5 +1,5 @@
 /**
-* $Id: MultipleValuePersistentCriteria.java 11913 2010-01-22 19:35:14Z kascice $
+* $Id: MultipleValuePersistentCriteria.java 14146 2011-04-06 17:07:22Z kascice $
 *
 * $Log: not supported by cvs2svn $
 * Revision 1.1  2007/08/07 12:05:15  bauerd
@@ -14,8 +14,8 @@
 */
 package gov.nih.nci.ncia.criteria;
 
-import gov.nih.nci.ncia.querystorage.QueryAttributeWrapper;
-import gov.nih.nci.ncia.util.Util;
+import gov.nih.nci.nbia.util.Util;
+import gov.nih.nci.nbia.querystorage.QueryAttributeWrapper;
 
 import java.util.ArrayList;
 import java.util.Collection;

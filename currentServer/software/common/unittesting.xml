@@ -12,7 +12,7 @@
 	<property name="findbugs.conf.dir" value="${project.lib.dir}/test-findbugs"/>
 	<!-- realtive to src.java.dir -->
 	<property name="inspection.includes" value="**/*.java"/>
-	<property name="cobertura.includes" value="gov/nih/nci/ncia/**"/>
+	<property name="cobertura.includes" value="gov/nih/nci/nbia/**"/>
   <property name="test.resources.dir" value="${basedir}/test/" />
 
 	<fail unless="classes.to.test.dir" message="must define classes.to.test.dir for unittesting.xml to work.  it's typically same as classes.dir in host build file"/>
@@ -24,9 +24,16 @@
 		</fileset>
 	</path>
 
-	<!-- Task definitions -->
-	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.classpath"/>
+  <!-- hack -->
+  <path id="ctp.project.classpath">
+    <fileset dir="${basedir}/../nbia-ctp/lib">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
 
+	<!-- Task definitions -->
+	<!--taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.classpath"/-->
+<import file="../common/InitIvy.xml"/>
 	<!-- note: this used to be lib.dir, but it collides with Introduce generated build scripts lib.dir -->
 	<fail unless="project.lib.dir" message="must define project.lib.dir for unittesting.xml to work"/>
 
@@ -150,13 +157,13 @@
 		<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="project.test.pmd.classpath"/>
 		<mkdir dir="${reports.dir}/pmd/${ant.project.name}/target"/>
 		<switch value="${ant.project.name}">
-			<case value="ncia-web">
+			<case value="nbia-web">
 				<var name="pmd.maxRuleViolations" value="0"/>
 			</case>
-			<case value="ncia-services-commons">
+			<case value="nbia-services-commons">
 				<var name="pmd.maxRuleViolations" value="0"/>
 			</case>
-			<case value="ncia-ctp">
+			<case value="nbia-ctp">
 				<var name="pmd.maxRuleViolations" value="0"/>
 			</case>
 			<case value="ncia-core-grid-transfer">
@@ -206,16 +213,13 @@
 
 	<target name="-checkstyle" if="static.analysis">
 		<switch value="${ant.project.name}">
-			<case value="ncia-web">
+			<case value="nbia-web">
 				<var name="checkstyle.maxErrors" value="10"/>
-			</case>
-			<case value="ncia-services-commons">
-				<var name="checkstyle.maxErrors" value="0"/>
 			</case>
       <case value="nbia-dao">
         <var name="checkstyle.maxErrors" value="2"/>
       </case>
-			<case value="ncia-ctp">
+			<case value="nbia-ctp">
 				<var name="checkstyle.maxErrors" value="13"/>
 			</case>
 			<case value="ncia-core-grid-transfer">
@@ -223,9 +227,6 @@
 			</case>
 			<case value="nbia-download-manager">
 				<var name="checkstyle.maxErrors" value="1"/>
-			</case>
-			<case value="nbia-download">
-				<var name="checkstyle.maxErrors" value="0"/>
 			</case>
 			<default>
 				<var name="checkstyle.maxErrors" value="0"/>
@@ -314,6 +315,14 @@
                                 database.driver="${database.driver}"
                                 database.dialect="${database.dialect}"/>
 
+    <if>
+      <available file="${test.resources.dir}/NCIA.csm.new.hibernate.cfg.xml"/>
+      <then>
+        <patch-hibernate-cfg-direct file="${test.resources.dir}/NCIA.csm.new.hibernate.cfg.xml"/>
+      </then>
+    </if>
+
+
 		<junit printsummary="on" failureproperty="junit.failure" maxmemory="256m">
 			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.ser.file}"/>
 			<classpath location="${instrumented.dir}"/>
@@ -321,6 +330,8 @@
 			<classpath location="${classes.to.test.dir}"/>
 			<classpath location="${test.classes.dir}"/>
 			<classpath refid="project.test.classpath"/>
+      <classpath refid="ctp.project.classpath"/>
+
 			<formatter type="xml"/>
 			<!-- perhaps break down by project name if there are collisions? -->
 			<!-- the fork sets each test to have its own VM.  this is necessary           for db tests because of something not understood with the way Hibernate3DataAccess works -->
