@@ -5,9 +5,11 @@ public class SeriesData {
 	private String collection;
 	private String patientId;
 	private String studyInstanceUid;
+	private String modality;
 	private String seriesInstanceUid;
 	private boolean hasAnnotation;
 	private String numberImages;
+	private String imageUid;
 	private Integer imagesSize;
 	private Integer annoSize;
 	private String url;
@@ -62,6 +64,12 @@ public class SeriesData {
 	public void setStudyInstanceUid(String studyInstanceUid) {
 		this.studyInstanceUid = studyInstanceUid;
 	}
+	public String getModality() {
+		return modality;
+	}
+	public void setModality(String modality) {
+		this.modality = modality;
+	}
 	public String getSeriesInstanceUid() {
 		return seriesInstanceUid;
 	}
@@ -80,6 +88,11 @@ public class SeriesData {
 	public void setLocal(boolean local) {
 		this.local = local;
 	}
-	
+	public String getImageUid() {
+		return imageUid;
+	}
+	public void setImageUid(String imageUid) {
+		this.imageUid = imageUid;
+	}
 
 }

@@ -148,6 +148,7 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 	                  String collection,
 	                  String patientId,
 	                  String studyInstanceUid,
+	                  String modality,
 	                  String seriesInstanceUid,
 	                  boolean includeAnnotation,
 	                  boolean hasAnnotation,
@@ -157,12 +158,13 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 	                  Integer imagesSize,
 	                  Integer annoSize,
 	                  NBIANode node,
-	                  String seriesIdentifier){
+	                  String seriesIdentifier, Integer noOfRetry){
 
 		this.serverUrl = serverUrl;
 		this.collection = collection;
 		this.patientId = patientId;
 		this.studyInstanceUid = studyInstanceUid;
+		this.modality = modality;
 		this.seriesInstanceUid = seriesInstanceUid;
 		this.includeAnnotation = includeAnnotation;
 		this.hasAnnotation = hasAnnotation;
@@ -173,9 +175,10 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 		this.annoSize = annoSize;
 		this.node = node;
 		this.seriesIdentifier = seriesIdentifier;
-
+		this.noOfRetry = noOfRetry;
 		computeTotalSize();
 		downloaded = 0;
+		this.additionalInfo = new StringBuffer();
     }
 
 
@@ -183,7 +186,7 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
      * Kick off the download for this series.
      */
     public final void run(){
-
+    	System.out.println("AT THE TOP OF run for series:"+seriesInstanceUid);
         status = DOWNLOADING;
         stateChanged();
 
@@ -192,6 +195,7 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 
             runImpl();
 
+            System.out.println("runImpl is done:"+status +" for series:"+seriesInstanceUid);
             //could be NO_DATA or ERROR i think
             if (status == COMPLETE) {
                 downloaded= size;
@@ -201,12 +205,25 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
 
         }
         catch (Exception e){
+            //Changed by lrt for tcia -  we do wish to know what happened for debugging purposes.
+            System.out.println("Exception: " + e);
+            e.printStackTrace();
+           // additionalInfo = e.getLocalizedMessage();
             error();
-            throw new RuntimeException(e);
-        }
+            // Changed by lrt for tcia -
+            //    keep thread alive to work on other downloads, 
+            //    but wait a moment in case there is a network problem
+            //throw new RuntimeException(e);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+       }
         long end = System.currentTimeMillis();
-
-        System.out.println("total download time: " + (end - start)/1000 + " s.");
+        additionalInfo.append(" - total download time: " + (end - start)/1000 + "s.");
+        System.out.println(additionalInfo.toString());
     }
 
     /**
@@ -228,6 +245,7 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
     protected String collection;
     protected String patientId;
     protected String studyInstanceUid;
+    protected String modality;
     protected String seriesInstanceUid;
     protected int size; // size of download in bytes
     protected int downloaded; // number of bytes downloaded
@@ -242,6 +260,8 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
     protected String password;
     protected int imagesSize;
     protected int annoSize;
+    protected int noOfRetry;
+    protected StringBuffer additionalInfo;
     protected PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     protected NBIAIOUtils.ProgressInterface progressUpdater = new ProgressUpdater();
@@ -266,5 +286,19 @@ public abstract class AbstractSeriesDownloader extends Observable implements Run
         downloaded = bytesReceived;
         stateChanged();
     }
+
+	/**
+	 * @return the additionalInfo
+	 */
+	public StringBuffer getAdditionalInfo() {
+		return additionalInfo;
+	}
+
+	/**
+	 * @param additionalInfo the additionalInfo to set
+	 */
+	public void setAdditionalInfo(StringBuffer additionalInfo) {
+		this.additionalInfo.append(additionalInfo);
+	}
 
 }
