@@ -8,7 +8,7 @@
 
 <h:form id="sideMenuForm" style="height:100%;display:inline">
 
-<table summary="" cellpadding="0" cellspacing="0" border="0" width="130" height="100%">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="146" height="100%">
 
   <tr>
     <td height="22" colspan="2" class="subMenuPrimaryTitle">
@@ -254,8 +254,8 @@
     </f:subview>
        
 		<tr>
-			<td height="21" colspan="2" class="subMenuPrimaryTitle">
-				<h:outputText value="#{msg.menu_quickLinks}" />
+			<td height="21" colspan="2" class="subMenuPrimaryTitle" style="background: #EE8709;">
+				SUMMARY
 
 				<!-- anchor to skip sub menu -->
 				<a href="#content">
@@ -265,8 +265,13 @@
 				</a>
 			</td>
 		</tr>
-
-    <ui:include src="quickLinks.xhtml"/>
+		<tr valign="top">
+			<td colspan="2" class="subMenuSecondaryTitle" style="padding-left: 0px; padding-right: 10px;">
+				<p>The TraIT project focuses on the integration and querying of information across the four major domains of CTMM&apos;s translational research - clinical data, imaging data, biobanking and genomics/proteomics data.
+				Much of the development will be performed in collaboration with groups at the global and European level.</p>
+				<p>This application is offered by the CTMM project.</p>
+			</td>
+		</tr>
     
   </table>
 </h:form>
