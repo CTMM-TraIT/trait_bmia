@@ -3,7 +3,7 @@
 /bda-local-ivy-repo
 /currentServer/software/target
 
-# remove builded documents from sub-projects
+# remove built documents from sub-projects
 /currentServer/software/ncia-core-grid-transfer/build
 /currentServer/software/ncia-core-grid-transfer/test-classes
 /currentServer/software/ncia-core-grid-transfer/target
