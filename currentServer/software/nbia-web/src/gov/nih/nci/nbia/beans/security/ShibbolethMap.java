@@ -11,13 +11,13 @@ import javax.servlet.http.HttpSession;
 
 
 /**
- *  Helper class for Shiboleth Attributes 
+ *  Helper class for Shibboleth Attributes 
  */ 
-public class ShibolethMap extends HashMap<String,String>
+public class ShibbolethMap extends HashMap<String,String>
 {
 	private static final long serialVersionUID = 4026469448457968111L;
 	
-	// Current default shiboleth attributes. 
+	// Current default Shibboleth attributes. 
 	// Not all might be supported. 
 	final static String SHIB_PERSISTENT_ID  = "persistent-id"; 
 	final static String SHIB_USER           = "Shib-user"; 
@@ -58,12 +58,12 @@ public class ShibolethMap extends HashMap<String,String>
 	
 	// === instance === 
 	
-	public ShibolethMap()
+	public ShibbolethMap()
 	{
 		super(); 
 	}
 	
-	public ShibolethMap(Map<String,String> attrs)
+	public ShibbolethMap(Map<String,String> attrs)
 	{
 		super(attrs); 
 	}
@@ -85,9 +85,9 @@ public class ShibolethMap extends HashMap<String,String>
 	
 	public void parseShibVars(HttpServletRequest request, boolean printAll)
     {
-        ShibolethMap shibMap=this; 
+        ShibbolethMap shibMap=this; 
          
-        String attrNames[]=ShibolethMap.getDefaultAttributeNames(); 
+        String attrNames[]=ShibbolethMap.getDefaultAttributeNames(); 
         
         // first parse Attributes: 
         for (int i=0; i<attrNames.length; i++)
@@ -96,7 +96,7 @@ public class ShibolethMap extends HashMap<String,String>
             Object value=request.getAttribute(attrNames[i]); 
             if (value!=null)
             { 
-                infoPrintf(" - [REQ:SHIB:ATTR]: Found Shiboleth Attribute:%s='%s'\n",name,value); 
+                infoPrintf(" - [REQ:SHIB:ATTR]: Found Shibboleth Attribute:%s='%s'\n",name,value); 
                 shibMap.put(name,value.toString()); 
             }
             else
@@ -116,12 +116,12 @@ public class ShibolethMap extends HashMap<String,String>
             {
                 if (shibMap.get(name)==null) 
                 {
-                    warnPrintf(" - [REQ:SHIB:HEADR]: Using (AJP_)Shiboleth *HEADER*:%s='%s'\n",name,value); 
+                    warnPrintf(" - [REQ:SHIB:HEADR]: Using (AJP_)Shibboleth *HEADER*:%s='%s'\n",name,value); 
                     shibMap.put(name,value.toString());
                 }
                 else
                 {
-                    warnPrintf(" - [REQ:SHIB:HEADR]: Skipping (AJP_)Shiboleth *HEADER*:%s='%s'\n",name,value); 
+                    warnPrintf(" - [REQ:SHIB:HEADR]: Skipping (AJP_)Shibboleth *HEADER*:%s='%s'\n",name,value); 
                 }               
             }
         }

@@ -48,7 +48,7 @@ public class SecurityBean
 	 */
 	private AuthorizationManager authMgr;
 
-	private ShibolethMap shibMap;
+	private ShibbolethMap shibMap;
 	
 	/**
 	 * Piter T. de Boer: Added default constructor. 
@@ -58,8 +58,8 @@ public class SecurityBean
 	{
 		super(); 
 		
-	    ShibolethMap.infoPrintf(">>>\n>>>>\n NEW SecurityBean() \n>>>\n>>>\n");
-	    // Here the security context and shiboleth parameters can be checked. 
+	    ShibbolethMap.infoPrintf(">>>\n>>>>\n NEW SecurityBean() \n>>>\n>>>\n");
+	    // Here the security context and Shibboleth parameters can be checked. 
 		initShibMap();
 	}
 
@@ -69,17 +69,17 @@ public class SecurityBean
 		
 		HttpServletRequest request = (HttpServletRequest) FacesContext .getCurrentInstance().getExternalContext().getRequest();
 		
-		this.shibMap = new ShibolethMap(); 
+		this.shibMap = new ShibbolethMap(); 
 		this.shibMap.parseShibVars(request,true);
 		this.username=this.shibMap.getShibUid(); // uid= plain user name  (?)
 		
 		if (this.username!=null)
 		{
-			ShibolethMap.infoPrintf(">>> Using Default Shib UID='%s'\n",username);
+			ShibbolethMap.infoPrintf(">>> Using Default Shib UID='%s'\n",username);
 		}
 		else
 		{
-		    ShibolethMap.warnPrintf(">>> ** NO Default Shib UID!\n");
+		    ShibbolethMap.warnPrintf(">>> ** NO Default Shib UID!\n");
 		}
 	}
 	
@@ -179,8 +179,8 @@ public class SecurityBean
 	 */
 	public String login(String uname, String pass) throws Exception
 	{
-	    ShibolethMap.infoPrintf(">>> SecurityBean.login: loggedIn=%s\n",loggedIn); 
-	    ShibolethMap.infoPrintf(">>> SecurityBean.login: uname,pass='%s','%s'\n",uname,pass); 
+	    ShibbolethMap.infoPrintf(">>> SecurityBean.login: loggedIn=%s\n",loggedIn); 
+	    ShibbolethMap.infoPrintf(">>> SecurityBean.login: uname,pass='%s','%s'\n",uname,pass); 
 
 		username = uname;
 		password = pass;
@@ -208,7 +208,7 @@ public class SecurityBean
 			if (this.shibMap!=null)
 			{
 				isShibUser=(shibMap.getShibUid()!=null);
-				ShibolethMap.infoPrintf(" USING: Login Username, Shib UID => '%s' <=> '%s'\n",username,shibMap.getShibUid());
+				ShibbolethMap.infoPrintf(" USING: Login Username, Shib UID => '%s' <=> '%s'\n",username,shibMap.getShibUid());
 			}
 				
 			NCIASecurityManager sm = (NCIASecurityManager)SpringApplicationContext.getBean("nciaSecurityManager");
@@ -238,7 +238,7 @@ public class SecurityBean
 			if (isShibUser && isInLocal)
 			{
 				loggedIn = true;
-				ShibolethMap.infoPrintf(" >>> Matched SHIB ID with login name! <<<\n"); 
+				ShibbolethMap.infoPrintf(" >>> Matched SHIB ID with login name! <<<\n"); 
 			}
 			else if (isInLDAP && isInLocal) 
 			{
@@ -507,7 +507,7 @@ public class SecurityBean
 	 */
 	public boolean getHasLoggedInAsRegisteredUser()
 	{
-	    ShibolethMap.infoPrintf(">>> SecurityBean.getHasLoggedInAsRegisteredUser: loggedIn=%s\n",loggedIn); 
+	    ShibbolethMap.infoPrintf(">>> SecurityBean.getHasLoggedInAsRegisteredUser: loggedIn=%s\n",loggedIn); 
 		
 		if(loggedIn)
 		{
