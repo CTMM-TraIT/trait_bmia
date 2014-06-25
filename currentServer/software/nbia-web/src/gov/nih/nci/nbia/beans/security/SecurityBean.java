@@ -20,10 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 /**
- * Session scope bean that allows for security to be implemented.
- *
+ * Session scope bean that allows for security to be implemented.<br>
+ * 
+ * <strong>Note:</strong> This is the Shibboleth enabled SecurityBean patched by Piter T. de Boer <br>
+ *  
  * @author shinohaa
- *
  */
 public class SecurityBean 
 {

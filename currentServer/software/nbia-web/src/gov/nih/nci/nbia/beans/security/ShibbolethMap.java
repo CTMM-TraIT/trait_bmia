@@ -11,7 +11,10 @@ import javax.servlet.http.HttpSession;
 
 
 /**
- *  Helper class for Shibboleth Attributes 
+ *  Helper class for Shibboleth Attributes needed by the SecurityBean. 
+ *   
+ *  @author Piter T. de Boer 
+ *  
  */ 
 public class ShibbolethMap extends HashMap<String,String>
 {
