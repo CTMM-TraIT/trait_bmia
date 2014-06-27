@@ -26,8 +26,7 @@ import org.apache.log4j.Logger;
  *  
  * @author shinohaa
  */
-public class SecurityBean 
-{
+public class SecurityBean {
 	private static Logger logger = Logger.getLogger(SecurityBean.class);
 	/**
 	 * Current users username and password.
@@ -49,24 +48,27 @@ public class SecurityBean
 	 */
 	private AuthorizationManager authMgr;
 
+	/** 
+	 * PTdB: The Map holding the current user's Shibboleth Attributes. 
+	 */
 	private ShibbolethMap shibMap;
 	
 	/**
 	 * Piter T. de Boer: Added default constructor. 
-	 *  
+	 * PTdB: Here is where the Shibboleth attributes are initialized.  
 	 */
 	public SecurityBean()
 	{
 		super(); 
 		
 	    ShibbolethMap.infoPrintf(">>>\n>>>>\n NEW SecurityBean() \n>>>\n>>>\n");
-	    // Here the security context and Shibboleth parameters can be checked. 
+	    // PTdB: Here the security context and Shibboleth parameters can be checked. 
 		initShibMap();
 	}
 
 	private void initShibMap()
 	{
-		// Initialize is called within Current Context. 
+		// PTdB: Initialize is called within Current Servlet Context which contains the HTTP Attributes. 
 		
 		HttpServletRequest request = (HttpServletRequest) FacesContext .getCurrentInstance().getExternalContext().getRequest();
 		
@@ -178,8 +180,8 @@ public class SecurityBean
 	 * @param uname
 	 * @param pass
 	 */
-	public String login(String uname, String pass) throws Exception
-	{
+	public String login(String uname, String pass) throws Exception {
+	    
 	    ShibbolethMap.infoPrintf(">>> SecurityBean.login: loggedIn=%s\n",loggedIn); 
 	    ShibbolethMap.infoPrintf(">>> SecurityBean.login: uname,pass='%s','%s'\n",uname,pass); 
 
@@ -188,7 +190,7 @@ public class SecurityBean
 		boolean isInLDAP = false;
 		boolean isInLocal = false;
 		
-		// shib
+		// PTdB: Is Authenticated shibboleth user. 
 		boolean isShibUser= false; 
 		
 		loggedIn = false;
@@ -203,50 +205,42 @@ public class SecurityBean
     	}
 
 		AnonymousLoginBean anonymousLoginBean = BeanManager.getAnonymousLoginBean();
-		try 
-		{
-			// check if it has a Shib Uid -> 
-			if (this.shibMap!=null)
-			{
+		try {
+			// PTdB: check here if there is a "Shib Uid" -> 
+			if (this.shibMap!=null) {
 				isShibUser=(shibMap.getShibUid()!=null);
 				ShibbolethMap.infoPrintf(" USING: Login Username, Shib UID => '%s' <=> '%s'\n",username,shibMap.getShibUid());
 			}
 				
 			NCIASecurityManager sm = (NCIASecurityManager)SpringApplicationContext.getBean("nciaSecurityManager");
 			
-			if( anonymousLoginBean.getIsGuestEnabled() && username.equals(anonymousLoginBean.getGuestUserName()))
-			{
+			if( anonymousLoginBean.getIsGuestEnabled() && username.equals(anonymousLoginBean.getGuestUserName())) {
 				//bypass authentication for guest user
 				anonymousLoginBean.setGuestLoggedIn(true);
 				isInLDAP = true;
 				logger.info("bypass authentication for guest user");
 			}
-			else if (isShibUser==false)
-			{
-				// not LDAP but RDBMS ! 
+			else if (isShibUser==false) {
+				// PTdB: 'isInLDAP' also means: user in nbia_user data base.  
 				isInLDAP = sm.login(uname, pass);
 				logger.info("authentication registered user");
 			}
-			else
-			{
-				// use shib uid !
+			else {
+			    // PTdB: is authenticated shibboleth user -> continue.
 			}
 			
 			isInLocal = sm.isInLocalDB(username);
 			
-			// if Shib uid enabled AND username matches localDB ! 
+			// PTdB: If Shib uid enabled and username matches the one in the local DB the user is authenticated. 
 			
-			if (isShibUser && isInLocal)
-			{
+			if (isShibUser && isInLocal) {
 				loggedIn = true;
 				ShibbolethMap.infoPrintf(" >>> Matched SHIB ID with login name! <<<\n"); 
 			}
-			else if (isInLDAP && isInLocal) 
-			{
+			else if (isInLDAP && isInLocal) {
 				loggedIn = true;
 			}
-			else 
-			{
+			else {
 				loggedIn = false;
 				MessageUtil.addErrorMessage(PASSWORD_FIELD_JSF_ID,
 						                    "noUserInNcia");
@@ -281,7 +275,6 @@ public class SecurityBean
 		}
 	}
 
-	
 	private void recordLogin() throws Exception {
 		/* the following remote nodes setup has been moved to the
 		 * remote search link action.
@@ -460,17 +453,15 @@ public class SecurityBean
 	/**
 	 * @return true if the installation site is ncicb, false otherwise
 	 */
-	public boolean getInstallationSite() 
-	{
-		// PTdB: results in redirect to NCI Site!
+	public boolean getInstallationSite() {
+	    
+		// PTdB: results in redirect to 'NCI' Site!
 		String installedSite = NCIAConfig.getInstallationSite();
 		
-		if (installedSite.equalsIgnoreCase("ncicb")) 
-		{
+		if (installedSite.equalsIgnoreCase("ncicb")) {
 			return true;
 		}
-		else 
-		{
+		else {
 			return false;
 		}
 	}
@@ -508,10 +499,10 @@ public class SecurityBean
 	 */
 	public boolean getHasLoggedInAsRegisteredUser()
 	{
+	    // PTdB: Check Shibboleth attributes and optionally update authentication/authorization details here. 
 	    ShibbolethMap.infoPrintf(">>> SecurityBean.getHasLoggedInAsRegisteredUser: loggedIn=%s\n",loggedIn); 
 		
-		if(loggedIn)
-		{
+		if(loggedIn){
 			AnonymousLoginBean anonymousLoginBean = BeanManager.getAnonymousLoginBean();
 			boolean isGuestEnabled = anonymousLoginBean.getIsGuestEnabled();
 			if(!isGuestEnabled){
